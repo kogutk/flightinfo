@@ -6,6 +6,7 @@
 <head>
     <title>FlightInfo</title>
     <link href="<c:url value="/css/style.css" />" rel="stylesheet">
+    <link href="<c:url value="/fontawesome-free-5.13.1-web/css/all.css"/>" rel="stylesheet">
 </head>
 <body>
     <style>
@@ -27,31 +28,38 @@
             <div class="menuItem">
                 <form:form modelAttribute="airport">
                     Airport: <form:input path="codeIataAirport"></form:input>
-                    <input type="submit" value="Show!">
+                    <button type="submit"><i class="fa fa-search fa-rotate-90" aria-hidden="true"></i></button>
                 </form:form>
             </div>
         </div>
     </div>
+    <c:if test="${not empty errorMessage}">
+        <div class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            ${errorMessage}
+        </div>
+    </c:if>
+
     <div class="localAirport">
         <h1>${airport.nameAirport} - ${airport.codeIataAirport}</h1>
         <p>${airport.city.nameCity}, ${airport.nameCountry} (Time zone: ${airport.timezone})</p>
         <p>Local Time:  <fmt:formatDate pattern = "yyyy-MM-dd HH:mm" value = "${localDateTimeFormat.parse(airport.getLocalTime())}" /></p>
     </div>
     <div class="flight listHeader">
-        <div class="airline">
-            Airline
-        </div>
         <div class="number">
             Flight Number
         </div>
+        <div class="destination">
+            Destination
+        </div>
         <div class="time">
-            Scheduled Time
+            Time
+        </div>
+        <div class="airline">
+            Airline
         </div>
         <div class="status">
             Flight Status
-        </div>
-        <div class="airport">
-            Airport
         </div>
         <div class="gate">
             Gate
@@ -62,27 +70,29 @@
     </div>
 
     <c:forEach items="${flights}" var="flight">
-        <div class="flight">
-
-            <div class="airline">
-                    ${flight.airline.name}
-            </div>
+        <div class="flight <c:if test="${flight.newStatus eq 'delayed'}"> delayed</c:if>">
             <div class="number">
                     ${flight.flight.iataNumber}
             </div>
+            <div class="destination">
+                    ${flight.arrAirport.city.nameCity}, ${flight.arrAirport.codeIataAirport}<br/>
+                    ${flight.arrAirport.nameCountry}
+            </div>
             <div class="time">
-                <fmt:formatDate pattern = "yyyy-MM-dd HH:mm" value = "${localDateTimeFormat.parse(flight.departure.scheduledTime)}" />
+                <c:if test="${empty flight.departure.delay}">
+                    <fmt:formatDate pattern = "HH:mm" value = "${localDateTimeFormat.parse(flight.departure.scheduledTime)}" />
+                </c:if>
+                <c:if test="${not empty flight.departure.delay}">
+                    <fmt:formatDate pattern = "HH:mm" value = "${localDateTimeFormat.parse(flight.departure.estimatedTime)}" />
+                        <br/>(Sch.: <fmt:formatDate pattern = "HH:mm" value = "${localDateTimeFormat.parse(flight.departure.scheduledTime)}" />)
+                </c:if>
+            </div>
+            <div class="airline">
+                    <img alt="${flight.airline.name}" title="${flight.airline.name}" src="https://daisycon.io/images/airline/?width=80&height=40&iata=${flight.airline.iataCode}">
+<%--                    ${flight.airline.name}--%>
             </div>
             <div class="status">
-                    ${flight.status}
-                    <c:if test="${not empty flight.departure.delay}">
-                        Delay: ${flight.departure.delay}
-                    </c:if>
-            </div>
-            <div class="airport">
-                    ${flight.arrAirport.codeIataAirport}, ${flight.arrAirport.city.nameCity}<br>
-                    ${flight.arrAirport.nameAirport}<br>
-                    ${flight.arrAirport.nameCountry}
+                    ${flight.newStatus}<c:if test="${flight.newStatus eq 'delayed'}">: ${flight.departure.delay}</c:if>
             </div>
             <div class="gate">
                     ${flight.departure.gate}
@@ -94,5 +104,8 @@
             </div>
         </div>
     </c:forEach>
+<div class="footer">
+    Copyrights kkogut, WWSIS, 2020
+</div>
 </body>
 </html>

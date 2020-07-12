@@ -8,7 +8,7 @@ body{
     background-image: linear-gradient(to right, #0B1316, transparent);
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
     margin: 0px;
     width: 100%;
 }
@@ -20,11 +20,10 @@ body{
     display: flex;
     flex-direction: row;
     align-content: flex-start;
-    align-items: flex-end;
+    align-items: center;
 }
 .menuItem{
     margin: 10px;
-    margin-bottom: 25px;
     text-decoration: none;
     font-size: large;
     color: #FBEFE3;
@@ -38,6 +37,24 @@ body{
 .menuItem form{
     margin: 0px;
 }
+input[type=text] {
+    background: transparent;
+    color: #FBEFE3;
+    width: 80px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #FBEFE3;
+}
+input[type=text]:focus {
+    border: 1px solid #FBEFE3;
+}
+button{
+    border:0;
+    background:none;
+    color: #FBEFE3;
+}
+
+
 .localAirport{
     margin: 50px;
     color: #0B1316;
@@ -75,10 +92,40 @@ body{
     width: 15%;
     text-align: center;
 }
+.delayed{
+    background-color: #826779;
+}
 .weather{
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
+.footer{
+    color: #826779;
+    font-size: small;
+    text-align: center;
+    margin: 50px;
+}
 
+
+/*alert*/
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+}
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.closebtn:hover {
+    color: black;
+}

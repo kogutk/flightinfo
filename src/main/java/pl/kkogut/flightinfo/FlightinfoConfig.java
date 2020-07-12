@@ -15,6 +15,7 @@ import java.util.Locale;
 
 @Configuration
 public class FlightinfoConfig implements WebMvcConfigurer {
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**")
@@ -50,7 +51,5 @@ public class FlightinfoConfig implements WebMvcConfigurer {
         lci.setParamName("lang");
         return lci;
     }
-
-
 
 }
