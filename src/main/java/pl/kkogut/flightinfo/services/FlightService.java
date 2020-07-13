@@ -10,18 +10,24 @@ import pl.kkogut.flightinfo.models.Airport;
 import pl.kkogut.flightinfo.models.Weather;
 
 public class FlightService extends Service {
+    CityService cityService;
+    AirportService airportService;
 
+    public FlightService(Api api, CityService cityService) {
+        super(api);
+        this.cityService = cityService;
+    }
 
-    public static List<Flight> getFlights(String iataCode){
+    public List<Flight> getFlights(String iataCode){
 
-        String result = Api.getFlightsJson(iataCode);
+        String result = api.getFlightsJson(iataCode);
         Flight[] flights = getObjectFromJson(result, Flight[].class);
         List<Flight> lf =Arrays.asList(flights);
         lf = setAdditionalInfo(lf);
         return lf;
     }
 
-    private static List<Flight> setAdditionalInfo(List<Flight> lf) {
+    private List<Flight> setAdditionalInfo(List<Flight> lf) {
         long startTime, endTime, weatherTime = 0, airportTime=0, counterWeather=0;
 
         List<Flight> list = new ArrayList<>();
@@ -53,32 +59,33 @@ public class FlightService extends Service {
 
         System.out.println("Set additional info (milis): Airport  = " + airportTime/1000000);
         System.out.println("Set additional info (milis): Weather  = " + weatherTime/1000000);
-        System.out.println("Set additional info (avg milis): Airport  = " + airportTime/counterWeather/1000000);
-        System.out.println("Set additional info (avg milis): Weather  = " + weatherTime/counterWeather/1000000);
+        System.out.println("Set additional info (avg milis): Airport  = " + airportTime/(counterWeather+1)/1000000);
+        System.out.println("Set additional info (avg milis): Weather  = " + weatherTime/(counterWeather+1)/1000000);
         System.out.println("Set additional info (count): Weather  = " + counterWeather);
         return list;
     }
-    private static Airport getAirportInfo(Flight flight) {
+    private Airport getAirportInfo(Flight flight) {
         String arrAirportIataCode = flight.getArrival().getIataCode();
-        return AirportService.getAirport(arrAirportIataCode);
+        airportService = new AirportService(api, cityService);
+        return airportService.getAirport(arrAirportIataCode);
     }
 
-    private static Weather getWeatherInfo(Flight flight) {
-
+    private Weather getWeatherInfo(Flight flight) {
+        WeatherService weatherService = new WeatherService(api);
         double lat, lon;
         Airport airport = flight.getArrAirport();
         lat = airport.getLatitudeAirport();
         lon = airport.getLongitudeAirport();
 
-        return WeatherService.getWeather(lat, lon);
+        return weatherService.getWeather(lat, lon);
     }
-    public static String getNewStatus(String status, String delay){
+    public String getNewStatus(String status, String delay){
         String newStatus;
         if(status==null){
             return null;
         }
         else if(status.equals("scheduled") && delay!=null){
-           newStatus = "delayed";
+            newStatus = "delayed";
         }
         else if (status.equals("active")) {
             newStatus = "took off";

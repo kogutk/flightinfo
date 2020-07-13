@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.kkogut.flightinfo.models.Airport;
+import pl.kkogut.flightinfo.models.City;
 import pl.kkogut.flightinfo.models.Flight;
 import pl.kkogut.flightinfo.services.AirportService;
+import pl.kkogut.flightinfo.services.Api;
+import pl.kkogut.flightinfo.services.CityService;
 import pl.kkogut.flightinfo.services.FlightService;
 
 import java.text.SimpleDateFormat;
@@ -16,39 +19,43 @@ import java.util.Map;
 
 @Controller
 public class AirportController {
-    private static StopWatch stopWatch = new StopWatch();
+
+    private Api api = new Api();
+    private CityService cityService = new CityService(api);
+    private FlightService flightService = new FlightService(api, cityService);
+    private AirportService airportService = new AirportService(api, cityService);
 
     @GetMapping("/")
     public String getFlights(@ModelAttribute("airport") Airport airport, Map<String, Object> model){
-        stopWatch.start();
-        if(airport.getCodeIataAirport()==null){
-            airport = new Airport("WAW");
-        }
-        model.put("flights", FlightService.getFlights(airport.getCodeIataAirport()));
-        model.put("airport", AirportService.getAirport(airport.getCodeIataAirport()));
-        model.put("localDateTimeFormat", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"));
-        stopWatch.stop();
-        System.out.println("Controller Get = " + stopWatch.getTotalTimeSeconds());
+        serveModel(airport,model);
         return "airport";
     }
     @PostMapping("/")
     public String postFlights(@ModelAttribute("airport") Airport airport, Map<String, Object> model){
-        stopWatch.start();
-        try {
-            List<Flight> flights = FlightService.getFlights(airport.getCodeIataAirport());
-            airport = AirportService.getAirport(airport.getCodeIataAirport());
+        serveModel(airport,model);
+        return "airport";
+    }
+
+    private void serveModel(Airport airport, Map<String, Object> model){
+        if(airport.getCodeIataAirport()==null || airport.getCodeIataAirport()==""){
+            airport = new Airport("WAW");
+        }
+
+        String iataCode = airport.getCodeIataAirport();
+
+//        try {
+            airport = airportService.getAirport(iataCode);
+            List<Flight> flights = flightService.getFlights(iataCode);
+
 
             model.put("flights", flights);
             model.put("airport", airport);
             model.put("localDateTimeFormat", new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"));
+//        }
+//        catch (Exception e){
+//            model.put("errorMessage","Couldnt get flights and airport info. Check Airport code.");
+//
+//        }
 
-        }
-        catch (Exception e){
-            model.put("errorMessage","Couldnt get flights and airport info. Check Airport code.");
-
-        }
-        stopWatch.stop();
-        System.out.println("Controller Put = " + stopWatch.getTotalTimeSeconds());
-        return "airport";
     }
 }

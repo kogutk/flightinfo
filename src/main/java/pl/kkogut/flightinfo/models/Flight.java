@@ -26,7 +26,6 @@ public class Flight {
         this.status = status;
         this.type = type;
         this.codeshared = codeshared;
-        this.newStatus = FlightService.getNewStatus(status, departure.delay);
     }
 
     @Override
@@ -112,7 +111,23 @@ public class Flight {
             this.flight = flight;
         }
     }
+    public String getNewStatus(String status, String delay){
+        String newStatus;
+        if(status==null){
+            return null;
+        }
+        else if(status.equals("scheduled") && delay!=null){
+            newStatus = "delayed";
+        }
+        else if (status.equals("active")) {
+            newStatus = "took off";
+        }
+        else{
+            newStatus = status;
+        }
+        return newStatus;
 
+    }
 
 
 }
