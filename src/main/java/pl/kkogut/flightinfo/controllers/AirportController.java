@@ -18,7 +18,7 @@ import java.util.Map;
 public class AirportController {
     private static StopWatch stopWatch = new StopWatch();
 
-    @GetMapping("/airport")
+    @GetMapping("/")
     public String getFlights(@ModelAttribute("airport") Airport airport, Map<String, Object> model){
         stopWatch.start();
         if(airport.getCodeIataAirport()==null){
@@ -31,7 +31,7 @@ public class AirportController {
         System.out.println("Controller Get = " + stopWatch.getTotalTimeSeconds());
         return "airport";
     }
-    @PostMapping("/airport")
+    @PostMapping("/")
     public String postFlights(@ModelAttribute("airport") Airport airport, Map<String, Object> model){
         stopWatch.start();
         try {

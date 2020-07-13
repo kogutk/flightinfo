@@ -23,7 +23,7 @@
         </div>
         <div class="menu">
             <div class="menuItem">
-                <a href="airport">My Airport</a>
+                <a href="">My Airport</a>
             </div>
             <div class="menuItem">
                 <form:form modelAttribute="airport">
