@@ -17,4 +17,16 @@ public class City {
         this.latitudeCity = latitudeCity;
         this.longitudeCity = longitudeCity;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        try{
+            City c = (City) obj;
+            return this.codeIataCity.equals(c.codeIataCity); //simplification for testing purposes
+
+        }catch(Exception e){
+            return false;
+        }
+    }
+
 }

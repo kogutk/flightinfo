@@ -32,6 +32,17 @@ public class Airport {
         this.timezone = null;
         this.city = null;
     }
+    public Airport(String codeIataAirport, String codeIataCity){
+        this.codeIataAirport= codeIataAirport;
+        this.GMT = null;
+        this.codeIataCity = codeIataCity;
+        this.latitudeAirport = 0;
+        this.longitudeAirport = 0;
+        this.nameAirport = null;
+        this.nameCountry = null;
+        this.timezone = null;
+        this.city = null;
+    }
     public String getLocalTime(){
         LocalDateTime time = getNow(); //GMT time
         String gmt = getGMT();
@@ -43,5 +54,17 @@ public class Airport {
     }
     public LocalDateTime getNow(){
         return LocalDateTime.now(ZoneOffset.UTC);
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        try{
+            Airport a = (Airport) obj;
+            return this.codeIataAirport.equals(a.codeIataAirport); //simplification for testing purposes
+
+        }catch(Exception e){
+            return false;
+        }
     }
 }

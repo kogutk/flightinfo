@@ -1,7 +1,5 @@
 package pl.kkogut.flightinfo.models;
 
-import lombok.val;
-import org.apache.tomcat.jni.Local;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -11,12 +9,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
-class AirportTest {
+public class AirportTest {
 
     @Before
     void init(){

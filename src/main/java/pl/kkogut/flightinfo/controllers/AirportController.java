@@ -22,8 +22,8 @@ public class AirportController {
 
     private Api api = new Api();
     private CityService cityService = new CityService(api);
-    private FlightService flightService = new FlightService(api, cityService);
     private AirportService airportService = new AirportService(api, cityService);
+    private FlightService flightService = new FlightService(api, airportService);
 
     @GetMapping("/")
     public String getFlights(@ModelAttribute("airport") Airport airport, Map<String, Object> model){

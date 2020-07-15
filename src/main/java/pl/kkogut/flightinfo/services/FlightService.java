@@ -10,23 +10,21 @@ import pl.kkogut.flightinfo.models.Airport;
 import pl.kkogut.flightinfo.models.Weather;
 
 public class FlightService extends Service {
-    CityService cityService;
-    AirportService airportService;
 
-    public FlightService(Api api, CityService cityService) {
+    private final AirportService airportService;
+
+    public FlightService(Api api, AirportService airportService) {
         super(api);
-        this.cityService = cityService;
+        this.airportService = airportService;
     }
 
     public List<Flight> getFlights(String iataCode){
-
         String result = api.getFlightsJson(iataCode);
         Flight[] flights = getObjectFromJson(result, Flight[].class);
         List<Flight> lf =Arrays.asList(flights);
         lf = setAdditionalInfo(lf);
         return lf;
     }
-
     private List<Flight> setAdditionalInfo(List<Flight> lf) {
         long startTime, endTime, weatherTime = 0, airportTime=0, counterWeather=0;
 
@@ -66,10 +64,8 @@ public class FlightService extends Service {
     }
     private Airport getAirportInfo(Flight flight) {
         String arrAirportIataCode = flight.getArrival().getIataCode();
-        airportService = new AirportService(api, cityService);
         return airportService.getAirport(arrAirportIataCode);
     }
-
     private Weather getWeatherInfo(Flight flight) {
         WeatherService weatherService = new WeatherService(api);
         double lat, lon;
