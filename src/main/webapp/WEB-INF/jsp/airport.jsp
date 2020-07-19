@@ -1,12 +1,13 @@
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page errorPage="error.jsp" %>
+<%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title>FlightInfo</title>
     <link href="<c:url value="/css/style.css" />" rel="stylesheet">
-    <link href="<c:url value="/fontawesome-free-5.13.1-web/css/all.css"/>" rel="stylesheet">
 </head>
 <body>
     <style>
@@ -23,12 +24,12 @@
         </div>
         <div class="menu">
             <div class="menuItem">
-                <a href="">My Airport</a>
+                <a href="" title="Go to Warsaw Airport">My Airport</a>
             </div>
-            <div class="menuItem">
+            <div class="menuItem" title="Type airport code eg. WRO, TFS, ICN, WAW, POZ">
                 <form:form modelAttribute="airport">
-                    Airport: <form:input path="codeIataAirport"></form:input>
-                    <button type="submit"><i class="fa fa-search fa-rotate-90" aria-hidden="true"></i></button>
+                    Go to: <form:input path="codeIataAirport" ></form:input>
+                    <input type="submit" value="Fly!"/>
                 </form:form>
             </div>
         </div>
@@ -89,7 +90,6 @@
             </div>
             <div class="airline">
                     <img alt="${flight.airline.name}" title="${flight.airline.name}" src="https://daisycon.io/images/airline/?width=80&height=40&iata=${flight.airline.iataCode}">
-<%--                    ${flight.airline.name}--%>
             </div>
             <div class="status">
                     ${flight.newStatus}<c:if test="${flight.newStatus eq 'delayed'}">: ${flight.departure.delay}</c:if>

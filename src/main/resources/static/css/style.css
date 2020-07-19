@@ -48,13 +48,28 @@ input[type=text] {
 input[type=text]:focus {
     border: 1px solid #FBEFE3;
 }
-button{
-    border:0;
-    background:none;
+input[type=submit]{
+    box-sizing: border-box;
+    background: transparent;
     color: #FBEFE3;
+    border: 1px solid #FBEFE3;
 }
-
-
+input[type=submit]:hover{
+    box-sizing: border-box;
+    background: #FBEFE3;
+    color: #0B1316;
+    border: 1px solid #FBEFE3;
+}
+svg {
+    width: 14px;
+    height: 14px;
+    margin: 0px;
+    padding: 0px;
+    fill:#305E78
+}
+svg:hover {
+    fill: red;
+}
 .localAirport{
     margin: 50px;
     color: #0B1316;

@@ -3,7 +3,7 @@ package pl.kkogut.flightinfo.services;
 import org.springframework.web.client.RestTemplate;
 
 public class Api {
-    private final static String FLIGHT_API_KEY = "1044c9-8e7a15";
+    private final static String FLIGHT_API_KEY = "83823f-24ddf2";
     private final static String WEATHER_API_KEY = "8c6cdf6e368dee075ea9f5716bbc54eb";
 
     public String getAirportJson(String iataCode) {
