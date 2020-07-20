@@ -12,6 +12,11 @@ public class AirportService extends Service {
         this.cityService = cityService;
     }
 
+    /**
+     * Give Airport detailed information.
+     * <p>Serves Airport object with City information for a given IATA Airport code.</p>
+     * @param iataCode Code of the airport from IATA system.
+     */
     public Airport getAirport(String iataCode){
 
         String result = getAirportJson(iataCode);
@@ -28,6 +33,7 @@ public class AirportService extends Service {
             return null;
         }
     }
+
     public String getAirportJson(String iataCode){
         return api.getAirportJson(iataCode);
     }
