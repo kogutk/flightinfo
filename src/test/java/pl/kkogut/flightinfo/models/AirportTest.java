@@ -22,7 +22,7 @@ public class AirportTest {
     @Test
     void should_give_proper_local_time() {
         //given
-        LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC);
+        LocalDateTime localDateTime = LocalDateTime.now(ZoneOffset.UTC).plusHours(1);
         Airport target = spy(new Airport());
 
         given(target.getNow()).willReturn(localDateTime);

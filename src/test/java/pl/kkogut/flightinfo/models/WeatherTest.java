@@ -19,12 +19,6 @@ public class WeatherTest {
         Weather wDiff6 = new Weather("scattered clouds",null,34.85d);
         Weather wDiff7 = new Weather("scattered clouds","03d",0);
 
-//
-//        Weather.WeatherDesc wd = new Weather.WeatherDesc("scattered clouds","03d");
-//        Weather.WeatherDesc[] wds = new Weather.WeatherDesc[1];
-//        wds[0]=wd;
-//        Weather.Main wm = new Weather.Main(34.85d);
-
         Assert.assertEquals(wSame,w);
         Assert.assertNotEquals(wDiff1,w);
         Assert.assertNotEquals(wDiff2,w);

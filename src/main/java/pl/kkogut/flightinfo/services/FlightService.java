@@ -105,6 +105,4 @@ public class FlightService extends Service {
         return newStatus;
 
     }
-
-
 }

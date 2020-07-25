@@ -44,7 +44,7 @@ public class Airport {
         this.city = null;
     }
     public String getLocalTime(){
-        LocalDateTime time = getNow(); //GMT time
+        LocalDateTime time = getNow();
         String gmt = getGMT();
         if(gmt!=null && !gmt.equals("")){
             short dif = Short.parseShort(gmt);
@@ -53,7 +53,7 @@ public class Airport {
         return time.toString();
     }
     public LocalDateTime getNow(){
-        return LocalDateTime.now(ZoneOffset.UTC);
+        return LocalDateTime.now(ZoneOffset.UTC).plusHours(1);
     }
 
 
